@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_city_by_bus/router.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
 import 'package:smart_city_by_bus/pages/Login.dart';
 
@@ -16,7 +17,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.lightGreen,
       ),
-      home: Login(),
+      home: StreamBuilder<BluetoothState>(
+          stream: FlutterBlue.instance.state,
+          initialData: BluetoothState.unknown,
+          builder: (c, snapshot) {
+            final state = snapshot.data;
+            if (state == BluetoothState.on) {
+              return Login();
+            }
+          }),
       onGenerateRoute: router.generator,
     );
   }

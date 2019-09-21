@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nfc_reader/flutter_nfc_reader.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
 import 'package:smart_city_by_bus/router.dart';
 
@@ -17,7 +18,9 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   int _points = 0;
   bool _scanning = false;
+  bool _inBus = false;
   var _checkInCoords = {};
+  var _checkOutCoords = {};
 
   var geolocator = Geolocator();
   var locationOptions =
@@ -63,7 +66,9 @@ class HomeState extends State<Home> {
               //print(response.id);
               setState(() {
                 _scanning = false;
+                _inBus = true;
               });
+
               StreamSubscription<Position> positionStream = geolocator
                   .getPositionStream(locationOptions)
                   .listen((Position position) {
@@ -141,6 +146,31 @@ class HomeState extends State<Home> {
       appBar: AppBar(
         title: Text("Bus +"),
         actions: <Widget>[
+          _inBus
+              ? IconButton(
+                  icon: Icon(Icons.time_to_leave),
+                  onPressed: () {
+                    setState(() {
+                      _inBus = false;
+                    });
+
+                    StreamSubscription<Position> positionStream = geolocator
+                        .getPositionStream(locationOptions)
+                        .listen((Position position) {
+                      setState(() {
+                        _checkOutCoords["lat"] = position.latitude.toString();
+                        _checkOutCoords["long"] = position.longitude.toString();
+                      });
+
+                      print(position == null
+                          ? 'Unknown'
+                          : position.latitude.toString() +
+                              ', ' +
+                              position.longitude.toString());
+                    });
+                  },
+                )
+              : Container(),
           IconButton(
             icon: Icon(Icons.info),
             onPressed: () {
@@ -153,16 +183,7 @@ class HomeState extends State<Home> {
         builder: (context) => Container(
             alignment: Alignment(0.0, 0.0),
             height: double.maxFinite,
-            decoration: BoxDecoration(
-
-                /*gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                Theme.of(context).accentColor,
-                Theme.of(context).backgroundColor
-              ])*/
-                ),
+            decoration: BoxDecoration(),
             child: Stack(children: _main(context))),
       ),
       bottomNavigationBar: BottomNavigationBar(
