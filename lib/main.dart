@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Bus +',
       theme: ThemeData(
-        primarySwatch: Colors.lightGreen,
+        accentColor: Color(0xFF55C9A6),
+        primaryColor: Color(0xFF025D5E),
       ),
       home: StreamBuilder<BluetoothState>(
           stream: FlutterBlue.instance.state,

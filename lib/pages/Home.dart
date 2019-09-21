@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nfc_reader/flutter_nfc_reader.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 
 import 'package:smart_city_by_bus/router.dart';
 

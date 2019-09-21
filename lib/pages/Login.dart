@@ -78,7 +78,7 @@ class LoginState extends State<Login> {
                       onPressed: () {
                         router.navigateTo(context, "/home");
                       },
-                      color: Colors.lightGreen,
+                      color: Theme.of(context).accentColor,
                     ),
                   ),
                   Padding(
@@ -93,7 +93,7 @@ class LoginState extends State<Login> {
                     child: FlatButton(
                       child: Text("Sign Up"),
                       onPressed: () {},
-                      color: Colors.lightGreen,
+                      color: Theme.of(context).accentColor,
                     ),
                   ),
                 ],
