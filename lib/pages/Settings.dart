@@ -1,17 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_nfc_reader/flutter_nfc_reader.dart';
 
 import 'package:smart_city_by_bus/router.dart';
 
-class Redeem extends StatefulWidget {
+class Settings extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new RedeemState();
+    return new SettingsState();
   }
 }
 
-class RedeemState extends State<Redeem> {
+class SettingsState extends State<Settings> {
   int _points = 0;
 
   @override
@@ -26,43 +25,28 @@ class RedeemState extends State<Redeem> {
           heightFactor: 0.1,
         ),
       ),
-      Text(
-        "Your Points: $_points",
-        style: TextStyle(fontSize: 40),
+      Card(
+        child: ListTile(
+          title: Text("Personal Details"),
+          trailing: Icon(Icons.arrow_forward_ios),
+        ),
       ),
-      Expanded(
-        child: FractionallySizedBox(
-          heightFactor: 0.1,
+       Card(
+        child: ListTile(
+          title: Text("Contact Details"),
+          trailing: Icon(Icons.arrow_forward_ios),
         ),
       ),
       Card(
         child: ListTile(
-          title: Text("PayBack Points"),
-          trailing: Icon(Icons.redeem),
+          title: Text("Font Settings"),
+          trailing: Icon(Icons.arrow_forward_ios),
         ),
       ),
       Card(
         child: ListTile(
-          title: Text("Amazon Gift Card"),
-          trailing: Icon(Icons.redeem),
-        ),
-      ),
-      Card(
-        child: ListTile(
-          title: Text("GYM Studio"),
-          trailing: Icon(Icons.redeem),
-        ),
-      ),
-      Card(
-        child: ListTile(
-          title: Text("..."),
-          trailing: Icon(Icons.redeem),
-        ),
-      ),
-      Card(
-        child: ListTile(
-          title: Text("..."),
-          trailing: Icon(Icons.redeem),
+          title: Text("Theme Settings"),
+          trailing: Icon(Icons.arrow_forward_ios),
         ),
       ),
       Expanded(
@@ -109,7 +93,7 @@ class RedeemState extends State<Redeem> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _switchTo,
-        currentIndex: 1,
+        currentIndex: 2,
         items: [
           BottomNavigationBarItem(
               title: Text("Account"), icon: Icon(Icons.account_circle)),

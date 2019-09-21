@@ -165,7 +165,7 @@ class HomeState extends State<Home> {
        router.navigateTo(context, "/home");      
     }
     if(index == 2) {
-       router.navigateTo(context, "/redeem");      
+       router.navigateTo(context, "/settings");      
     }
 
   }
