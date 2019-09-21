@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_nfc_reader/flutter_nfc_reader.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'package:smart_city_by_bus/router.dart';
 
@@ -14,6 +17,11 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   int _points = 0;
   bool _scanning = false;
+  var _checkInCoords = {};
+
+  var geolocator = Geolocator();
+  var locationOptions =
+      LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
 
   @override
   void initState() {
@@ -55,7 +63,20 @@ class HomeState extends State<Home> {
               //print(response.id);
               setState(() {
                 _scanning = false;
-                _points = _points + 1;
+              });
+              StreamSubscription<Position> positionStream = geolocator
+                  .getPositionStream(locationOptions)
+                  .listen((Position position) {
+                setState(() {
+                  _checkInCoords["lat"] = position.latitude.toString();
+                  _checkInCoords["long"] = position.longitude.toString();
+                });
+
+                print(position == null
+                    ? 'Unknown'
+                    : position.latitude.toString() +
+                        ', ' +
+                        position.longitude.toString());
               });
             });
           },
@@ -150,23 +171,23 @@ class HomeState extends State<Home> {
         items: [
           BottomNavigationBarItem(
               title: Text("Account"), icon: Icon(Icons.account_circle)),
-          BottomNavigationBarItem(
-              title: Text("Home"), icon: Icon(Icons.home)),
+          BottomNavigationBarItem(title: Text("Home"), icon: Icon(Icons.home)),
           BottomNavigationBarItem(
               title: Text("Settings"), icon: Icon(Icons.settings))
         ],
       ),
     );
   }
-  void _switchTo(int index) {
-    if(index == 0) {
-      router.navigateTo(context, "/home");    }
-    if(index == 1) {
-       router.navigateTo(context, "/home");      
-    }
-    if(index == 2) {
-       router.navigateTo(context, "/settings");      
-    }
 
+  void _switchTo(int index) {
+    if (index == 0) {
+      router.navigateTo(context, "/home");
+    }
+    if (index == 1) {
+      router.navigateTo(context, "/home");
+    }
+    if (index == 2) {
+      router.navigateTo(context, "/settings");
+    }
   }
 }
